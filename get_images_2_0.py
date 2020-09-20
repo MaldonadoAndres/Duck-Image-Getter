@@ -111,7 +111,7 @@ def download_images(images, download_path):
 
 if __name__ == "__main__":
     URL = 'https://duckduckgo.com/'
-    max_results = 10
+    max_results = None
     logging.basicConfig(filename='get_images.log',
                         filemode='w', level=logging.DEBUG)
     logger = logging.getLogger(__name__)
