@@ -100,6 +100,7 @@ def download_images(images, download_path):
             filename = "{}000{}.jpg".format(
                 download_path, files_count)
             urllib.request.urlretrieve(image["image"], filename)
+            # Utils.to_gray_scale(filename)
             logger.info(
                 "Downloading file ->{} Title -> {}".format(filename, image["title"]))
         except Exception as exception:
@@ -110,8 +111,8 @@ def download_images(images, download_path):
 
 if __name__ == "__main__":
     URL = 'https://duckduckgo.com/'
-    max_results = None
-    logging.basicConfig(filename='test_logs.log',
+    max_results = 10
+    logging.basicConfig(filename='get_images.log',
                         filemode='w', level=logging.DEBUG)
     logger = logging.getLogger(__name__)
     coloredlogs.install(level='DEBUG', logger=logger)
