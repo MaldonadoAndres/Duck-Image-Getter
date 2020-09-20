@@ -37,6 +37,7 @@ def search(keyword, max_results):
         'referer': 'https://duckduckgo.com/',
         'accept-language': 'en-US,en;q=0.9',
     }
+    # TODO Remove .gif from petition
     params = {
         'l': 'us_en',
         'o': 'json',
@@ -52,7 +53,7 @@ def search(keyword, max_results):
         downloaded_files_count = len(glob.glob1(download_path, "*.jpg"))
         json_data = request_json(request_url=request_url,
                                  headers=headers, params=params)
-        if downloaded_files_count > max_results:
+        if max_results is not None and downloaded_files_count > max_results:
             logger.info("Max results reached moving to next one main loop")
             break
         else:
@@ -64,6 +65,7 @@ def search(keyword, max_results):
                 "No more images for query -> {} moving to next one".format(girl))
             break
         request_url = URL + json_data["next"]
+        logger.info("Getting next batch of images")
     pass
     logger.info("Continuing to next girl")
 
@@ -89,7 +91,7 @@ def request_json(request_url, headers, params):
 def download_images(images, download_path):
     for image in images:
         files_count = len(glob.glob1(download_path, "*.jpg"))
-        if files_count > max_results:
+        if max_results is not None and files_count > max_results:
             logger.info(
                 "Max results reached moving to next one download_images")
             break
@@ -108,7 +110,7 @@ def download_images(images, download_path):
 
 if __name__ == "__main__":
     URL = 'https://duckduckgo.com/'
-    max_results = 200
+    max_results = None
     logging.basicConfig(filename='test_logs.log',
                         filemode='w', level=logging.DEBUG)
     logger = logging.getLogger(__name__)
@@ -118,5 +120,4 @@ if __name__ == "__main__":
              "irene red velvet", "joy red velvet", "seulgi red velvet"]
     for girl in girls:
         search(girl, max_results=max_results)
-        break
     pass
