@@ -4,6 +4,7 @@ from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D,
 import pickle
 import utils as Utils
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 X = pickle.load(open("X.pickle", "rb"))
@@ -34,4 +35,8 @@ model.add(Activation('sigmoid'))
 model.compile(loss="categorical_crossentropy",
               optimizer="adam", metrics=['accuracy'])
 
-model.fit(x=X, y=Y, batch_size=30, validation_split=0.1)
+model.fit(x=X, y=Y, batch_size=50, epochs=2, validation_split=0.1)
+X = X*255.0
+predictions = model.predict([X])
+for i in range(0, len(predictions)):
+    print(Utils.get_girl_name(np.argmax(predictions[i])))
